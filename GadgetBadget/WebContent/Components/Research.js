@@ -3,8 +3,8 @@ $(document).ready(function() {
 
 	$("#alertSuccess").hide();
 	$("#alertError").hide();
-	$("#hidOrderIDSave").val("");
-	$("#ORDER")[0].reset();
+	$("#hiResearchIDSave").val("");
+	$("#RESEARCH")[0].reset();
 });
 
 $(document).on("click", "#btnSave", function(event) {
@@ -24,12 +24,12 @@ $(document).on("click", "#btnSave", function(event) {
 	}
 	
 	// If valid------------------------
-	var type = ($("#hidOrderIDSave").val() == "") ? "POST" : "PUT";
+	var type = ($("#hiResearchIDSave").val() == "") ? "POST" : "PUT";
 
 	$.ajax({
-		url : "OrderAPI",
+		url : "ResearchAPI",
 		type : type,
-		data : $("#ORDER").serialize(),
+		data : $("#RESEARCH").serialize(),
 		dataType : "text",
 		complete : function(response, status) {
 			onItemSaveComplete(response.responseText, status);
@@ -48,7 +48,7 @@ function onItemSaveComplete(response, status) {
 			
 			$("#alertSuccess").text("Successfully saved.");
 			$("#alertSuccess").show();
-			$("#OrderGrid").html(resultSet.data);
+			$("#ResearchGrid").html(resultSet.data);
 			
 		} else if (resultSet.status.trim() == "error") {
 			
@@ -67,16 +67,16 @@ function onItemSaveComplete(response, status) {
 		$("#alertError").show();
 	}
 	
-	$("#hidOrderIDSave").val("");
-	$("#ORDER")[0].reset();
+	$("#hiResearchIDSave").val("");
+	$("#RESEARCH")[0].reset();
 }
 
 $(document).on("click", ".btnRemove", function(event) {
 	
 	$.ajax({
-		url : "OrderAPI",
+		url : "ResearchAPI",
 		type : "DELETE",
-		data : "orderID=" + $(this).data("orderID"),
+		data : "postID=" + $(this).data("postID"),
 		dataType : "text",
 		complete : function(response, status) {
 			onItemDeleteComplete(response.responseText, status);
@@ -94,7 +94,7 @@ function onItemDeleteComplete(response, status) {
 			
 			$("#alertSuccess").text("Successfully deleted.");
 			$("#alertSuccess").show();
-			$("#OrderGrid").html(resultSet.data);
+			$("#ResearchGrid").html(resultSet.data);
 			
 		} else if (resultSet.status.trim() == "error") {
 			
@@ -117,28 +117,26 @@ function onItemDeleteComplete(response, status) {
 // UPDATE==========================================
 $(document).on("click",".btnUpdate",function(event)
 		{
-			$("#hidOrderIDSave").val($(this).data("orderID"));
-			$("#orderCode").val($(this).closest("tr").find('td:eq(0)').text());
-			$("#customerID").val($(this).closest("tr").find('td:eq(1)').text());
-			$("#customerEmail").val($(this).closest("tr").find('td:eq(2)').text());
-			$("#customerName").val($(this).closest("tr").find('td:eq(3)').text());
-			$("#totalAmount").val($(this).closest("tr").find('td:eq(4)').text());
-			$("#cardNo").val($(this).closest("tr").find('td:eq(5)').text());
-			$("#cvvNo").val($(this).closest("tr").find('td:eq(6)').text());		
+			$("#hiResearchIDSave").val($(this).data("postID"));
+			$("#postTitle").val($(this).closest("tr").find('td:eq(0)').text());
+			$("#postContent").val($(this).closest("tr").find('td:eq(1)').text());
+			$("#date").val($(this).closest("tr").find('td:eq(2)').text());
+			$("#time").val($(this).closest("tr").find('td:eq(3)').text());
+				
 		});
 
 
 // CLIENTMODEL=========================================================================
 function validateItemForm() {
 	
-	// Order Code
-	if ($("#orderCode").val().trim() == "") {
-		return "Please insert order code.";
+	// Post Title
+	if ($("#postTitle").val().trim() == "") {
+		return "Please insert Post Title.";
 	}
 	
-	// Customer ID
+	// Post Content
 	if ($("#customerID").val().trim() == "") {
-		return "Please insert Customer ID.";
+		return "Please insert Post Content.";
 	}
 	
 	// Customer Email
@@ -151,20 +149,7 @@ function validateItemForm() {
 		return "Please insert Customer Name.";
 	}
 	
-	// Total Amount
-	if ($("#totalAmount").val().trim() == "") {
-		return "Please insert total amount.";
-	}
 	
-	// Card No
-	if ($("#cardNo").val().trim() == "") {
-		return "Please insert card no.";
-	}
-	
-	// CVV No
-	if ($("#cvvNo").val().trim() == "") {
-		return "Please insert cvv no.";
-	}
 	
 	return true;
 }

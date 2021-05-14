@@ -1,4 +1,4 @@
-package com.gadget_badget.orders.model;
+package com.gadget_badget.research.model;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -11,13 +11,13 @@ import java.util.Map;
 import java.util.Scanner;
 
 
-@WebServlet("/OrderAPI")
-public class OrderAPI extends HttpServlet {
+@WebServlet("/ResearchAPI")
+public class ResearchAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	OrderServlet orderObj = new OrderServlet();
+	ResearchServlet researchObj = new ResearchServlet();
 	
-	public OrderAPI() {
+	public ResearchAPI() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -33,13 +33,11 @@ public class OrderAPI extends HttpServlet {
 			throws ServletException, IOException {
 		
 		// TODO Auto-generated method stub
-		String outputString = orderObj.insertOrder(request.getParameter("orderCode"), 
-				request.getParameter("customerID"),
-				request.getParameter("customerEmail"), 
-				request.getParameter("customerName"), 
-				request.getParameter("totalAmount"),
-				request.getParameter("cardNo"),
-				request.getParameter("cvvNo"));
+		String outputString = researchObj.insertResearch(request.getParameter("postID"), 
+				request.getParameter("postTitle"),
+				request.getParameter("PostContent"));
+			 
+				
 
 		response.getWriter().write(outputString);
 	}	
@@ -49,15 +47,12 @@ public class OrderAPI extends HttpServlet {
 		
 		Map paras = getParasMap(request);
 
-		String outputString = orderObj.updateOrder(
-				paras.get("orderID").toString(),
-				paras.get("orderCode").toString(),
-				paras.get("customerID").toString(), 
-				paras.get("customerEmail").toString(), 
-				paras.get("customerName").toString(),
-				paras.get("totalAmount").toString(),
-				paras.get("cardNo").toString(),
-				paras.get("cvvNo").toString()); 
+		String outputString = researchObj.updateResearch(
+				paras.get("postID").toString(),
+				paras.get("postTitle").toString(),
+				paras.get("PostContent").toString());
+				
+				
 
 		response.getWriter().write(outputString);
 	}
@@ -67,7 +62,7 @@ public class OrderAPI extends HttpServlet {
 		
 		// TODO Auto-generated method stub
 		Map paras = getParasMap(request);
-		String output = orderObj.deleteOrder(paras.get("orderID").toString());
+		String output = researchObj.deleteResearch(paras.get("postID").toString());
 		response.getWriter().write(output); 		
 	}
 
